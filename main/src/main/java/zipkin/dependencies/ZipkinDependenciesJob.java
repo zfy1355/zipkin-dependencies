@@ -37,7 +37,6 @@ public final class ZipkinDependenciesJob {
   /** Runs with defaults, starting today */
   public static void main(String[] args) throws UnsupportedEncodingException {
     String jarPath = pathToUberJar();
-    long day = args.length == 1 ? parseDay(args[0]) : System.currentTimeMillis();
     String storageType = System.getenv("STORAGE_TYPE");
     if (storageType == null) {
       throw new IllegalArgumentException("STORAGE_TYPE not set");
@@ -50,6 +49,7 @@ public final class ZipkinDependenciesJob {
 
     Runnable runnable =  new Runnable() {
       public void run() {
+        long day = System.currentTimeMillis();
         try {
           switch (storageType) {
             case "cassandra":
